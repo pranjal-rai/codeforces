@@ -1,0 +1,90 @@
+//pranjalr34
+
+#include<bits/stdc++.h>
+
+#define PB push_back
+#define MP make_pair
+#define F first
+#define S second
+#define all(a) a.begin(),a.end()
+#define SZ(a) (int)(a.size())
+#define fi(i,a,b) for(int i=a;i<b;i++)
+#define fd(i,a,b) for(int i=a;i>=b;i--)
+#define n_p next_permutation
+#define b_s binary_search
+#define min(a,b) ((a<b)?a:b)
+#define max(a,b) ((a<b)?b:a)
+#define gcd __gcd
+#define INF INT_MAX
+#define init(a,b) memset(a,b,sizeof(a))
+#define INFL LLONG_MAX
+#define trace1(x)                cerr <<#x<<": "<<x<<endl;
+#define trace2(x, y)             cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
+#define trace3(x, y, z)          cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
+#define trace4(a, b, c, d)       cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
+#define trace5(a, b, c, d, e)    cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
+
+using namespace std;
+typedef pair<int,int> PII;
+typedef vector<int> VI;
+typedef vector< PII > VPII;
+typedef long long int LL;
+typedef pair<LL,LL> PLL;
+typedef vector<LL> VLL;
+typedef vector< PLL > VPLL;
+typedef set<int> SI;
+typedef set<LL> SLL;
+
+void FastIO(){ios_base::sync_with_stdio(0);cin.tie(NULL);cout.tie(NULL);cout.precision(15);}
+//LL modpow(LL a,LL b,LL m){LL r = 1;while (b > 0){if (b % 2 == 1)r = (r * a) % m;b = b >> 1;a = (a * a) % m;}return r%m;}
+//LL power(LL a, LL p){LL ret=1;while(p){if(p&1)ret=(ret*a);a=(a*a);p/=2;}return ret;}
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+int n,i,j;
+VI v;
+VI ::iterator it;
+int sieve[15050]={0},diff[5050]={0},arr[10050]={0},sum;
+int main()
+{
+    FastIO(); 
+    cin >>n;
+    v.resize(n);
+    for(i=0;i<n;i++)
+        cin >>v[i];
+    sort(all(v));
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            diff[v[j]-v[i]]++;
+        }
+    }
+    for(i=1;i<=5010;i++)
+    {
+        for(j=1;j<=5010;j++)
+        {
+            arr[i+j]+=(diff[i]*diff[j]);
+        }
+    }
+    for(i=1;i<=15010;i++)
+    {
+        sum=i;
+        it=upper_bound(all(v),sum);
+        if(it==v.end())
+            sieve[sum]=0;
+        else
+            sieve[sum]=(n-(it-v.begin()));
+    }
+    double ans=0.0;
+    for(i=1;i<=10010;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            sum=i+v[j];
+            ans=ans+((double)arr[i])*sieve[sum];
+        }
+    }
+    double y=(1.0*n*n*n*(n-1)*(n-1)*(n-1));
+    cout <<(8.0*ans)/y<<"\n";
+    return 0;
+}
